@@ -1,10 +1,10 @@
-// src/components/AddContact.jsx
 import { useState } from 'react';
 import { db, storage } from '../firebase';
 import { collection, addDoc } from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { v4 as uuidv4 } from 'uuid';
-import { Container, Form, Button, Alert } from 'react-bootstrap';
+import 'react-phone-number-input/style.css';
+import PhoneInput from 'react-phone-number-input';
 
 const AddContact = () => {
   const [newContact, setNewContact] = useState({
@@ -65,64 +65,68 @@ const AddContact = () => {
   };
 
   return (
-    <Container className="bg-light p-3 border rounded shadow-sm">
+    <div className="mb-4 p-3 border rounded shadow-sm bg-light">
       <h2 className="mb-3">Add New Contact</h2>
-      {error && <Alert variant="danger">{error}</Alert>}
-      <Form>
-        <Form.Group className="mb-3">
-          <Form.Control
-            type="text"
-            name="firstName"
-            placeholder="First Name"
-            value={newContact.firstName}
-            onChange={handleInputChange}
-          />
-        </Form.Group>
-        <Form.Group className="mb-3">
-          <Form.Control
-            type="text"
-            name="lastName"
-            placeholder="Last Name"
-            value={newContact.lastName}
-            onChange={handleInputChange}
-          />
-        </Form.Group>
-        <Form.Group className="mb-3">
-          <Form.Control
-            type="text"
-            name="contactNumber"
-            placeholder="Contact Number"
-            value={newContact.contactNumber}
-            onChange={handleInputChange}
-          />
-        </Form.Group>
-        <Form.Group className="mb-3">
-          <Form.Control
-            type="email"
-            name="email"
-            placeholder="Email"
-            value={newContact.email}
-            onChange={handleInputChange}
-          />
-        </Form.Group>
-        <Form.Group className="mb-3">
-          <Form.Control
-            type="text"
-            name="note"
-            placeholder="Note"
-            value={newContact.note}
-            onChange={handleInputChange}
-          />
-        </Form.Group>
-        <Form.Group className="mb-3">
-          <Form.Control
-            type="file"
-            onChange={handleFileChange}
-          />
-        </Form.Group>
-        <Button onClick={addContact} variant="primary">Add Contact</Button>
-      </Form>
-    </Container>
+      {error && <div className="alert alert-danger">{error}</div>}
+      <div className="mb-3">
+        <input
+          type="text"
+          name="firstName"
+          placeholder="First Name"
+          value={newContact.firstName}
+          onChange={handleInputChange}
+          className="form-control"
+        />
+      </div>
+      <div className="mb-3">
+        <input
+          type="text"
+          name="lastName"
+          placeholder="Last Name"
+          value={newContact.lastName}
+          onChange={handleInputChange}
+          className="form-control"
+        />
+      </div>
+      <div className="mb-3">
+        <PhoneInput
+          international
+          defaultCountry="PK"
+          name="contactNumber"
+          value={newContact.contactNumber}
+          onChange={(value) => setNewContact(prevState => ({ ...prevState, contactNumber: value }))}
+          className="form-control"
+        />
+      </div>
+      <div className="mb-3">
+        <input
+          type="email"
+          name="email"
+          placeholder="Email"
+          value={newContact.email}
+          onChange={handleInputChange}
+          className="form-control"
+        />
+      </div>
+      <div className="mb-3">
+        <input
+          type="text"
+          name="note"
+          placeholder="Note"
+          value={newContact.note}
+          onChange={handleInputChange}
+          className="form-control"
+        />
+      </div>
+      <div className="mb-3">
+        <input
+          type="file"
+          onChange={handleFileChange}
+          className="form-control"
+        />
+      </div>
+      <button onClick={addContact} className="btn btn-primary">Add Contact</button>
+    </div>
   );
 };
 
