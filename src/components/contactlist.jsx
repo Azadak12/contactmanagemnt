@@ -1,7 +1,9 @@
-import { useState, useEffect } from 'react';
+// src/components/ContactList.jsx
+import  { useState, useEffect } from 'react';
 import { db } from '../firebase';
 import { collection, onSnapshot, deleteDoc, doc } from 'firebase/firestore';
 import ContactItem from './ContactItem';
+import { Container, ListGroup, Alert } from 'react-bootstrap';
 
 const ContactList = () => {
   const [contacts, setContacts] = useState([]);
@@ -24,18 +26,18 @@ const ContactList = () => {
   };
 
   return (
-    <div className="bg-light p-3 border rounded shadow-sm">
+    <Container className="bg-light p-3 border rounded shadow-sm">
       <h2 className="mb-3">Your Contacts</h2>
       {contacts.length === 0 ? (
-        <p className="text-center">No contacts available. Please add some!</p>
+        <Alert variant="info">No contacts available. Please add some!</Alert>
       ) : (
-        <ul className="list-group">
+        <ListGroup>
           {contacts.map(contact => (
             <ContactItem key={contact.id} contact={contact} onDelete={deleteContact} />
           ))}
-        </ul>
+        </ListGroup>
       )}
-    </div>
+    </Container>
   );
 };
 
